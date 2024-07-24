@@ -1,11 +1,14 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
+import { db } from "@/firebase/config";
+import { useCollection } from "react-firebase-hooks/firestore";
 
 const ProfileDetails = () => {
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+
   return (
     <div>
       <p className="">Profile Details</p>

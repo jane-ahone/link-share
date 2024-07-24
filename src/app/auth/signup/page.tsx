@@ -2,26 +2,54 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/config";
+import { string } from "zod";
+import z from "zod";
+import { fromZodError } from "zod-validation-error";
+
+const SignupSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
+});
 
 const Signup: React.FC = () => {
   const router = useRouter();
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
+
+  const [createUserWithEmailAndPassword] =
+    useCreateUserWithEmailAndPassword(auth);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // setError('');
-    // try {
-    //   const response = await axios.post('/api/auth/signup', { email, password, firstName, lastName });
-    //   if (response.status === 200) {
-    //     router.push('/auth/login'); // Redirect to login page after successful signup
-    //   }
-    // } catch (error) {
-    //   setError('Failed to create account');
-    // }
-    router.push("/");
+    if (password !== confirmPassword) {
+      setPasswordsMatch(false);
+      return;
+    }
+    //Form Validation
+    const result = SignupSchema.safeParse({ email, password });
+    if (!result.success) {
+      const validationError = fromZodError(result.error);
+      setError(validationError.message);
+      return;
+    }
+    //Authentication
+    try {
+      const res = await createUserWithEmailAndPassword(email, password);
+      console.log({ res });
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      router.push("/");
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -64,22 +92,28 @@ const Signup: React.FC = () => {
           </div>
           <div>
             <label
-              htmlFor="Confirm password"
+              htmlFor="confirm-password"
               className="block text-xs font-base text-linkDarkGrey"
             >
               Confirm password
             </label>
             <input
-              type="Confirm password"
+              type="password"
               id="confirm-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={confirmPassword}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setConfirmPassword(e.target.value)
+              }
               required
               className="block w-full px-3 py-2 mt-1 text-gray-900 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
-            <p className="">Password must contain at least 8 characters</p>
+            {!passwordsMatch && (
+              <p className="text-sm text-red-600 mt-2">
+                Passwords do not match
+              </p>
+            )}
           </div>
-          {error && <p className="text-sm text-red-600">{error}</p>}
+          {error ? <p className="text-sm text-red-600">{error}</p> : ""}
           <div>
             <button
               type="submit"

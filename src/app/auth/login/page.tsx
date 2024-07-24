@@ -4,6 +4,8 @@ import Button from "@/components/common/Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/config";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 
@@ -19,16 +21,28 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    //Form Validation
     const result = LoginSchema.safeParse({ email, password });
     if (!result.success) {
       const validationError = fromZodError(result.error);
       setError(validationError.message);
       return;
     }
-    //authentication
-    router.push("/");
+    //Authentication
+    try {
+      const res = await signInWithEmailAndPassword(email, password).then(() => {
+        console.log(res);
+        setEmail("");
+        setPassword("");
+        router.push("/");
+      });
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (

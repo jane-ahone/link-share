@@ -4,9 +4,20 @@ import Image from "next/image";
 import AddLink from "../../public/Main/add-link-icon.svg";
 import Button from "@/components/common/Button";
 import LinkForm from "@/components/main/Link";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/config";
+
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const [user] = useAuthState(auth);
+  console.log(user);
+  const router = useRouter();
+  if (!user) {
+    router.push("/login");
+  }
+
   const [isVisible, setIsVisible] = useState(true);
 
   const toggleVisibility = () => {
