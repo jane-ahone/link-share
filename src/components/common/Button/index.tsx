@@ -3,7 +3,7 @@
 import React from "react";
 
 interface ButtonProps {
-  variant: "primary" | "secondary"; // Define your variants here
+  variant: "primary" | "secondary" | "disabled"; // Define your variants here
   type: "submit" | "reset" | "button";
   onClick?: () => void;
   children: React.ReactNode;
@@ -16,7 +16,8 @@ const Button: React.FC<ButtonProps> = ({
   type,
 }) => {
   const buttonClassNames = `
-    px-3 py-7 rounded-lg w-full h-[46px] text-bold
+   flex items-center justify-center
+    px-3 py-7 rounded-lg w-full h-[48px] font-bold
     ${
       variant === "primary"
         ? "bg-linkBtnPrimaryDefault text-white text-base hover:bg-linkBtnPrimaryActive active:bg-linkBtnPrimaryActive"
@@ -24,7 +25,12 @@ const Button: React.FC<ButtonProps> = ({
     }
     ${
       variant === "secondary"
-        ? "bg-transparent text-purple border hover:bg-linkBtnPrimaryActive active:bg-linkBtnPrimaryActiveh"
+        ? "bg-transparent text-linkPurple border border-linkPurple hover:bg-linkPurpleHover active:bg-linkPurpleHover"
+        : ""
+    }
+    ${
+      variant === "disabled"
+        ? "opacity-25 bg-linkBtnPrimaryDefault text-white text-base"
         : ""
     }
   `;

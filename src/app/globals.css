@@ -7,8 +7,9 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
   --link-blue: 96, 60, 255;
-  --link-light-purple: 190, 173, 255;
-  --link-purple: 239, 235, 255;
+  --link-purple: 99, 60, 255;
+  --link-purple-hover: 190, 173, 255;
+  --link-light-purple: 239, 235, 255;
   --link-dark-grey: 51, 51, 51;
   --link-grey: 115, 115, 115;
   --link-border: 217, 217, 217;

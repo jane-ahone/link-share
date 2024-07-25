@@ -98,9 +98,13 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="btn-div">
+        <div className="btn-div ">
           <hr />
-          <Button type="submit" variant="primary" onClick={saveLinks}>
+          <Button
+            type="submit"
+            variant={isVisible ? "disabled" : "primary"}
+            onClick={saveLinks}
+          >
             Save
           </Button>
         </div>

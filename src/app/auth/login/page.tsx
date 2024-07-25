@@ -74,7 +74,7 @@ const Login: React.FC = () => {
               }
               placeholder="e.g alex@gmail.com"
               required
-              className="block w-full px-10 py-3 mt-1 border border-linkBorder rounded-lg focus:ring-indigo-500 focus:border-indigo-500 placeholder: text-linkDarkGrey placeholder:opacity-50"
+              className="block w-full px-10 py-3 mt-1 border border-linkBorder rounded-lg focus:outline-none focus:ring-1 focus:ring-linkBtnPrimaryDefault focus:border-transparent focus:shadow-[0 0 32px 0]0 placeholder: text-linkDarkGrey placeholder:opacity-50"
             />
           </div>
         </div>
@@ -96,7 +96,7 @@ const Login: React.FC = () => {
                 setPassword(e.target.value)
               }
               required
-              className="block w-full px-10 py-3 mt-1 border border-linkBorder rounded-lg focus:ring-indigo-500 focus:border-indigo-500 placeholder: text-linkDarkGrey placeholder:opacity-50"
+              className="block w-full px-10 py-3 mt-1 border border-linkBorder rounded-lg focus:outline-none focus:ring-1 focus:ring-linkBtnPrimaryDefault focus:border-transparent focus:shadow-[0 0 32px 0] placeholder: text-linkDarkGrey placeholder:opacity-50"
             />
           </div>
         </div>

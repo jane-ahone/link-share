@@ -6,6 +6,7 @@ import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 import DropdownMenu from "../common/Dropdown";
 import { SocialPlatform } from "@/utils/SocialPlatforms";
+import LinkIcon from "../../../public/Main/link-icon.svg";
 
 const LinkSchema = z.object({
   link: z.string().url({ message: "Invalid URL format" }),
@@ -43,7 +44,12 @@ const LinkForm: React.FC<LinkFormProps> = ({
   return (
     <div className="h-fit flex flex-col gap-3 content-center items-center">
       <div className="heading w-full flex justify-between">
-        <p className="text-base font-bold text-linkGrey">Link #{index + 1}</p>
+        <div className="">
+          <LinkIcon className="inline-block mr-2" />
+          <p className="inline-block text-base font-bold text-linkGrey">
+            Link #{index + 1}
+          </p>
+        </div>
         <p className="text-linkGrey font-normal text-base">Remove</p>
       </div>
 
