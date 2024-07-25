@@ -23,16 +23,17 @@ const HeaderLoggedIn = () => {
     <div className="flex flex-col self-stretch rounded-xl py-4 pl-6 pr-4 gap-2">
       <div className="flex justify-between items-center self-stretch">
         <Link href="/">
-          <Devlinks className="w-8 h-8" />
+          <Devlinks className="w-5 h-5" />
         </Link>
         <Link href="/">
-          <LinkIcon /> <p className="hidden">Links</p>
+          <LinkIcon className="w-5 h-5" /> <p className="hidden">Links</p>
         </Link>
         <Link href="/profile">
-          <UserIcon /> <p className="hidden">Profile Details</p>
+          <UserIcon className="w-5 h-5" />{" "}
+          <p className="hidden">Profile Details</p>
         </Link>
         <Link href="/preview">
-          <EyeBold />
+          <EyeBold className="w-5 h-5" />
           <p className="hidden"> Preview</p>
         </Link>
       </div>
