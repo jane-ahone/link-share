@@ -1,0 +1,16 @@
+export enum SocialPlatform {
+  GitHub = "GitHub",
+  FrontendMentor = "Frontend Mentor",
+  Twitter = "Twitter",
+  LinkedIn = "LinkedIn",
+  YouTube = "YouTube",
+  Facebook = "Facebook",
+  Twitch = "Twitch",
+  DevTo = "Dev.to",
+  Codewars = "Codewars",
+  Codepen = "Codepen",
+  FreeCodeCamp = "freeCodeCamp",
+  GitLab = "GitLab",
+  Hashnode = "Hashnode",
+  StackOverflow = "Stack Overflow",
+}

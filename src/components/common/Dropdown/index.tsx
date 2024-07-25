@@ -1,61 +1,63 @@
-import React, { useState } from "react";
+import { SocialPlatform } from "@/utils/SocialPlatforms";
+import { useState } from "react";
 
-const options = [
-  "GitHub",
-  "Frontend Mentor",
-  "Twitter",
-  "LinkedIn",
-  "YouTube",
-  "Facebook",
-  "Twitch",
-  "Dev.to",
-  "Codewars",
-  "Codepen",
-  "freeCodeCamp",
-  "GitLab",
-  "Hashnode",
-  "Stack Overflow",
+interface DropdownMenuProps {
+  setSelectedPlatform: React.Dispatch<
+    React.SetStateAction<SocialPlatform | null>
+  >;
+}
+
+const options: SocialPlatform[] = [
+  SocialPlatform.GitHub,
+  SocialPlatform.FrontendMentor,
+  SocialPlatform.Twitter,
+  SocialPlatform.LinkedIn,
+  SocialPlatform.YouTube,
+  SocialPlatform.Facebook,
+  SocialPlatform.Twitch,
+  SocialPlatform.DevTo,
+  SocialPlatform.Codewars,
+  SocialPlatform.Codepen,
+  SocialPlatform.FreeCodeCamp,
+  SocialPlatform.GitLab,
+  SocialPlatform.Hashnode,
+  SocialPlatform.StackOverflow,
 ];
 
-const DropdownMenu: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+const DropdownMenu: React.FC<DropdownMenuProps> = ({ setSelectedPlatform }) => {
+  const [selectedOption, setSelectedOption] = useState<SocialPlatform>(
+    SocialPlatform.GitHub
+  );
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(event.target.value);
+    const value = event.target.value as SocialPlatform;
+    setSelectedOption(value);
+    setSelectedPlatform(value);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-xs mx-auto">
-        <label
-          htmlFor="dropdown"
-          className="block text-sm font-medium text-gray-700 mb-2"
-        >
-          Select an Option
-        </label>
-        <select
-          id="dropdown"
-          value={selectedOption || ""}
-          onChange={handleChange}
-          className="block w-full px-4 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-        >
-          <option value="" disabled>
+    <div className="dropdown-menu">
+      <label
+        htmlFor="dropdown"
+        className="block text-sm font-normal text-linkDarkGrey"
+      >
+        Platform
+      </label>
+      <select
+        id="dropdown"
+        value={selectedOption}
+        onChange={handleChange}
+        className="block w-full px-10 py-3 mt-1 border border-linkBorder rounded-lg focus:ring-indigo-500 focus:border-indigo-500 placeholder: text-linkDarkGrey placeholder:opacity-50"
+      >
+        {/* <option value="" disabled>
             Select an option
+          </option> */}
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
           </option>
-          {options.map((option, index) => (
-            <option key={index} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-        {selectedOption && (
-          <div className="mt-4 text-center">
-            <p className="text-lg font-medium">
-              You selected: {selectedOption}
-            </p>
-          </div>
-        )}
-      </div>
+        ))}
+      </select>
     </div>
   );
 };

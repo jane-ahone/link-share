@@ -5,13 +5,16 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/config";
-import { string } from "zod";
 import z from "zod";
 import { fromZodError } from "zod-validation-error";
 
+import EmailIcon from "../../../../public/Login/ph_envelope-simple-fill.svg";
+import PasswordLockIcon from "../../../../public/Login/ph_lock-key-fill.svg";
+import Button from "@/components/common/Button";
+
 const SignupSchema = z.object({
   email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters long"),
+  password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 
 const Signup: React.FC = () => {
@@ -53,86 +56,107 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center">Create account</h2>
-        <p className="">Let&rsquo;s get you started sharing your links!</p>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-xs font-base text-linkDarkGrey"
-            >
-              Email address
-            </label>
+    <div className="min-h-screen flex flex-col  gap-10">
+      <div className="heading  flex flex-col  gap-2">
+        <p className="text-2xl font-bold text-left text-linkDarkGrey">
+          Create account
+        </p>
+        <p className="text-base text-linkGrey font-normal">
+          Let&rsquo;s get you started sharing your links!
+        </p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full">
+        <div className="">
+          <label
+            htmlFor="email"
+            className="block text-xs font-base text-linkDarkGrey"
+          >
+            Email address
+          </label>
+          <div className="input-field-email relative">
+            <EmailIcon className="absolute top-1/2 left-3 w-4 h-4 transform -translate-y-1/2 pointer-events-none" />
             <input
               type="email"
               id="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setEmail(e.target.value)
+              }
+              placeholder="e.g alex@gmail.com"
               required
-              className="block w-full px-3 py-2 mt-1 text-gray-900 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="block w-full px-10 py-3 mt-1 border border-linkBorder rounded-lg focus:ring-indigo-500 focus:border-indigo-500 placeholder: text-linkDarkGrey placeholder:opacity-50"
             />
           </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-xs font-base text-linkDarkGrey"
-            >
-              Password
-            </label>
+        </div>
+
+        <div className="relative">
+          <label
+            htmlFor="password"
+            className="block text-xs font-base text-linkDarkGrey"
+          >
+            Password
+          </label>
+          <div className="input-field-password relative">
+            <PasswordLockIcon className="absolute top-1/2 left-3 w-4 h-4 transform -translate-y-1/2 pointer-events-none" />
             <input
               type="password"
               id="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPassword(e.target.value)
+              }
               required
-              className="block w-full px-3 py-2 mt-1 text-gray-900 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="block w-full px-10 py-3 mt-1 border border-linkBorder rounded-lg focus:ring-indigo-500 focus:border-indigo-500 placeholder: text-linkDarkGrey placeholder:opacity-50"
             />
           </div>
-          <div>
-            <label
-              htmlFor="confirm-password"
-              className="block text-xs font-base text-linkDarkGrey"
-            >
-              Confirm password
-            </label>
+        </div>
+
+        <div>
+          <label
+            htmlFor="confirm-password"
+            className="block text-xs font-base text-linkDarkGrey"
+          >
+            Confirm password
+          </label>
+          <div className="input-field-conf-password relative">
+            <PasswordLockIcon className="absolute top-1/2 left-3 w-4 h-4 transform -translate-y-1/2 pointer-events-none" />
             <input
               type="password"
               id="confirm-password"
+              placeholder="At least 8 characters"
               value={confirmPassword}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setConfirmPassword(e.target.value)
               }
               required
-              className="block w-full px-3 py-2 mt-1 text-gray-900 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="block w-full px-10 py-3 mt-1 border border-linkBorder rounded-lg focus:ring-indigo-500 focus:border-indigo-500 placeholder: text-linkDarkGrey placeholder:opacity-50"
             />
-            {!passwordsMatch && (
-              <p className="text-sm text-red-600 mt-2">
-                Passwords do not match
-              </p>
-            )}
           </div>
-          {error ? <p className="text-sm text-red-600">{error}</p> : ""}
-          <div>
-            <button
-              type="submit"
-              className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Sign up
-            </button>
-          </div>
-        </form>
-        <div className="text-sm">
-          <p className="">Already have an account?</p>
-          <Link
-            href="/auth/login"
-            className="font-medium text-indigo-600 hover:text-indigo-500"
-          >
+          {!passwordsMatch && (
+            <p className="text-sm text-red-600 mt-2">Passwords do not match</p>
+          )}
+        </div>
+
+        <p className="text-linkGrey font-normal text-xs">
+          Password must contain at least 8 characters
+        </p>
+        {error ? <p className="text-sm text-red-600">{error}</p> : ""}
+
+        <div>
+          <Button type="submit" variant="primary">
+            Create new account
+          </Button>
+        </div>
+
+        <div className="text-center font-normal text-base">
+          <p className="text-linkGrey  ">Already have an account?</p>
+          <Link href="/auth/login" className="text-linkBtnPrimaryDefault  ">
             Login
           </Link>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

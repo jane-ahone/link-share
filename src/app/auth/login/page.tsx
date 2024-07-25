@@ -9,6 +9,9 @@ import { auth } from "@/firebase/config";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 
+import EmailIcon from "../../../../public/Login/ph_envelope-simple-fill.svg";
+import PasswordLockIcon from "../../../../public/Login/ph_lock-key-fill.svg";
+
 const LoginSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters long"),
@@ -35,7 +38,6 @@ const Login: React.FC = () => {
     //Authentication
     try {
       const res = await signInWithEmailAndPassword(email, password).then(() => {
-        console.log(res);
         setEmail("");
         setPassword("");
         router.push("/");
@@ -46,20 +48,23 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg">
+    <div className="min-h-screen flex flex-col gap-10">
+      <div className="heading flex flex-col gap-2">
         <p className="text-2xl font-bold text-left text-linkDarkGrey">Login</p>
         <p className="text-base text-linkGrey font-normal">
           Add your details below to get back into the app{" "}
         </p>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-xs font-base text-linkDarkGrey"
-            >
-              Email address
-            </label>
+      </div>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full">
+        <div className="">
+          <label
+            htmlFor="email"
+            className="block text-xs font-base text-linkDarkGrey"
+          >
+            Email address
+          </label>
+          <div className="input-field-email relative">
+            <EmailIcon className="absolute top-1/2 left-3 w-4 h-4 transform -translate-y-1/2 pointer-events-none" />
             <input
               type="email"
               id="email"
@@ -69,16 +74,19 @@ const Login: React.FC = () => {
               }
               placeholder="e.g alex@gmail.com"
               required
-              className="block w-full px-3 py-2 mt-1 text-gray-900 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="block w-full px-10 py-3 mt-1 border border-linkBorder rounded-lg focus:ring-indigo-500 focus:border-indigo-500 placeholder: text-linkDarkGrey placeholder:opacity-50"
             />
           </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
+        </div>
+        <div className="relative">
+          <label
+            htmlFor="password"
+            className="block text-xs font-base text-linkDarkGrey"
+          >
+            Password
+          </label>
+          <div className="input-field-password relative">
+            <PasswordLockIcon className="absolute top-1/2 left-3 w-4 h-4 transform -translate-y-1/2 pointer-events-none" />
             <input
               type="password"
               id="password"
@@ -88,24 +96,23 @@ const Login: React.FC = () => {
                 setPassword(e.target.value)
               }
               required
-              className="block w-full px-3 py-2 mt-1 text-gray-900 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="block w-full px-10 py-3 mt-1 border border-linkBorder rounded-lg focus:ring-indigo-500 focus:border-indigo-500 placeholder: text-linkDarkGrey placeholder:opacity-50"
             />
           </div>
-          {error && <p className="text-sm text-red-600">{error}</p>}
-          <div>
-            <Button variant="primary">Login</Button>
-          </div>
-        </form>
-        <div className="text-sm">
-          <p className="">Don&rsquo;t have an account?</p>
-          <Link
-            href="/auth/signup"
-            className="font-medium text-indigo-600 hover:text-indigo-500"
-          >
+        </div>
+        {error && <p className="text-sm text-red-600">{error}</p>}
+        <div>
+          <Button type="submit" variant="primary">
+            Login
+          </Button>
+        </div>
+        <div className="text-center font-normal text-base">
+          <p className="text-linkGrey ">Don&rsquo;t have an account?</p>
+          <Link href="/auth/signup" className="text-linkBtnPrimaryDefault ">
             Create account
           </Link>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

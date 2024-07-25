@@ -4,7 +4,7 @@ import OrgNameSvg from "../../../../public/Common/devlinks.svg";
 
 const Header = () => {
   return (
-    <div className="bg-transparent">
+    <div className="bg-transparent flex gap-2">
       <LogoSvg className="w-[40px] h-[40px] inline-block " />
       <OrgNameSvg className="w-[135px] h-[26.25px] inline-block" />
     </div>

@@ -8,7 +8,7 @@ const instrumentSans = Instrument_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Devlinks",
-  description: "Your favorite application for sharing links",
+  description: "Your favorite application for link sharing",
 };
 
 export default function RootLayout({
@@ -19,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} ${instrumentSans.className}`}>
-        <HeaderLoggedIn />
-        {children}
+        <div className="main-content">
+          <HeaderLoggedIn />
+          {children}
+        </div>
       </body>
     </html>
   );
