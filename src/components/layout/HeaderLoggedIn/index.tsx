@@ -26,7 +26,7 @@ const HeaderLoggedIn = () => {
           <Devlinks className="w-8 h-8" />
         </Link>
         <Link href="/">
-          <LinkIconActive /> <p className="hidden">Links</p>
+          <LinkIcon /> <p className="hidden">Links</p>
         </Link>
         <Link href="/profile">
           <UserIcon /> <p className="hidden">Profile Details</p>

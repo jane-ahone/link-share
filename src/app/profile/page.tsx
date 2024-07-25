@@ -12,10 +12,10 @@ const ProfileDetails = () => {
   const [lastName, setlastName] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [image, setImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [user] = useAuthState(auth);
   const router = useRouter();
-
-  console.log(user);
 
   useEffect(() => {
     if (!user) {
@@ -23,8 +23,19 @@ const ProfileDetails = () => {
     }
   });
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //   const file = e.target.files?.[0];
+    //   if (file) {
+    //     setImage(file);
+    //     setImagePreview(URL.createObjectURL(file));
+    //   }
+  };
+
   const addProfileClick = async () => {
-    if (user) addProfile(user.uid, firstName, lastName, email);
+    if (user) {
+      // const imageUrl = await uploadImage(image);
+      addProfile(user.uid, firstName, lastName, email);
+    }
   };
 
   return (
@@ -45,9 +56,26 @@ const ProfileDetails = () => {
               Profile picture
             </p>
             <div className="image-card flex flex-col gap-6">
-              <AddImageCard className="w-40 h-40" />
+              <label htmlFor="imageInput" className="cursor-pointer">
+                {imagePreview ? (
+                  <img
+                    src={imagePreview}
+                    alt="Profile"
+                    className="w-40 h-40 rounded-md"
+                  />
+                ) : (
+                  <AddImageCard className="w-40 h-40" />
+                )}
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                id="imageInput"
+                onChange={handleImageChange}
+                className="hidden"
+              />
               <p className="text-linkGrey font-normal text-xs">
-                Image must be below 1024x1024px. Use PNG <br></br> or JPG format
+                Image must be below 1024x1024px. Use PNG or JPG format
               </p>
             </div>
           </div>
